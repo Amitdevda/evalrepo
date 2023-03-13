@@ -1,0 +1,9 @@
+Answers:
+
+1. db.sales.createIndex({user_id: 1})
+
+2. db.vendors.aggregate([{$lookup: {from: "sales",localField: "_id",foreignField: "user_id",as: "sales"}},{$project: {_id: 1,name: 1,city: 1, sales: {_id: 1,item: 1,   profit: 1}}}])
+
+3. db.vendors.aggregate([{$lookup: {from: "sales", localField: "_id",foreignField: "user_id",as: "sales"}},{$project: {_id: 1,name: 1,total_sales: {$size: "$sales"},total_profit: {$sum: "$sales.profit"}}}])
+
+4. db.vendors.aggregate([{$lookup: {from: "sales", localField: "_id",foreignField: "user_id",as: "sales"}},{$project: {_id: 1,name: 1,total_sales: {$size: "$sales"},total_profit: {$sum: "$sales.profit"}}},{$sort: {total_profit: -1}}])
